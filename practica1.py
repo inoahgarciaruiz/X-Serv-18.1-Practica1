@@ -72,7 +72,9 @@ class URL_short(webapp.webApp):
             URL = resource
             if URL[0:13] == "http%3A%2F%2F":
                 URL = "http://" + URL[13::]
-            elif URL[0:8] != "http://":
+            elif URL[0:14] == "https%3A%2F%2F":
+                URL = "https://" + URL[14::]
+            elif URL[0:8] != "http://" or URL[0:8] != "https://":
                 URL = "http://" + resource
 
             print("***************************")
