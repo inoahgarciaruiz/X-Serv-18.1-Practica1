@@ -7,8 +7,8 @@
 
 import webapp
 
-class URL_short(webapp.webApp):
 
+class URL_short(webapp.webApp):
 
     def readCSV(self):
         """ Read CSV file containing shortened URLs."""
@@ -28,8 +28,7 @@ class URL_short(webapp.webApp):
     def addURL(self, URLdic, shortURLdic, URL):
         """ Add URLs to both dictionaries and updates CSV files."""
         if URL not in URLdic:
-            
-            idx = str(len(URLdic)) # Size of dictionaries
+            idx = str(len(URLdic))  # Size of dictionaries
             URLdic[URL] = idx
             shortURLdic[idx] = URL
             line = idx + "," + shortURLdic[idx] + "\n"
@@ -44,29 +43,29 @@ class URL_short(webapp.webApp):
         if resource in shortURLdic.keys():
             # HTTP Redirect
             url = shortURLdic[resource]
-            return("302 Found", "<html><head><title>URL-shorter App"\
-                   "</title><meta http-equiv='Refresh' content='3;"\
-                   "url=" + url + "'></head><body><p>Redirecting..."\
-                   "If you are not authomatically redirected, please "\
-                   "click <a href='" + url + "'>here</a></p></body></html>")     
+            return("302 Found", "<html><head><title>URL-shortener App"
+                   "</title><meta http-equiv='Refresh' content='3;"
+                   "url=" + url + "'></head><body><p>Redirecting..."
+                   "If you are not authomatically redirected, please "
+                   "click <a href='" + url + "'>here</a></p></body></html>")
         elif resource == "":
             # Gives a form and the list of shortened URLs
             URLlist = "<ul style='list-style-type:none'>"
             for i in shortURLdic:
-                URLlist = URLlist + "<li>" + i + ": " + shortURLdic[i] + "</li>"
+                URLlist = URLlist + "<li>" + i + ": " + shortURLdic[i] +\
+                          "</li>"
             URLlist = URLlist + "</ul>"
-            return("200 OK", "<html><head><title>URL-shorter App</title>"\
-                   "</head><body><h3>This app shorts URLs "\
-                   "</h3><form action='http://localhost:1234'"\
-                   " method='POST'>"\
-                   "URL:<input type='text' name='url' value=''"\
-                   " /><br/><input type='submit' value='Send' /></form>"\
+            return("200 OK", "<html><head><title>URL-shortener App</title>"
+                   "</head><body><h3>This app shorts URLs "
+                   "</h3><form action='http://localhost:1234'"
+                   " method='POST'>URL:<input type='text' name='url' value=''"
+                   " /><br/><input type='submit' value='Send' /></form>"
                    "<h2>" + URLlist + "</h2></body></html>")
         else:
             # HTTP Not Found
-            return("404 Not Found", "<html><head><title>URL-shorter App"\
-                   "</title></head><body><h3>Error(GET): Resource not "\
-                   "available</h3></body></html>")                
+            return("404 Not Found", "<html><head><title>URL-shortener App"
+                   "</title></head><body><h3>Error(GET): Resource not "
+                   "available</h3></body></html>")
 
     def POSTanswer(self, resource, URLdic, shortURLdic):
         if resource != "":
@@ -81,17 +80,15 @@ class URL_short(webapp.webApp):
             print("***************************")
 
             (URLdic, shortURLdic) = self.addURL(URLdic, shortURLdic, URL)
-            return("200 OK", "<html><head><title>URL-shortener App</title>"\
-                   "</head><body><h3>The URL was succesfully shortened! "\
-                   "</h3><h2><a href=" + URL + "> " + URLdic[URL] + " </a> "\
+            return("200 OK", "<html><head><title>URL-shortener App</title>"
+                   "</head><body><h3>The URL was succesfully shortened! "
+                   "</h3><h2><a href=" + URL + "> " + URLdic[URL] + " </a> "
                    " <a href=" + URL + "> " + shortURLdic[URLdic[URL]] +
                    " </a></h3></body></html>")
         else:
-            return("404 Not Found", "<html><head><title>URL-shorter App"\
-                   "</title></head><body><h3>Error(POST): Resource not "\
-                   "available</h3></body></html>")  
-
-    
+            return("404 Not Found", "<html><head><title>URL-shortener App"
+                   "</title></head><body><h3>Error(POST): Resource not "
+                   "available</h3></body></html>")
 
     def parse(self, request):
         """Parse the received request, extracting the relevant information."""
@@ -112,11 +109,11 @@ class URL_short(webapp.webApp):
         (URLdic, shortURLdic) = self.readCSV()
         if method == "GET" and resource != "favicon.ico":
             (code, answer) = self.GETanswer(resource, shortURLdic)
-            return(code,answer)
+            return(code, answer)
 
         elif method == "POST":
             (code, answer) = self.POSTanswer(resource, URLdic, shortURLdic)
-            return(code,answer)
+            return(code, answer)
         else:
             return ("", "")
 
