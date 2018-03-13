@@ -116,7 +116,9 @@ class URL_short(webapp.webApp):
 
         elif method == "POST":
             (code, answer) = self.POSTanswer(resource, URLdic, shortURLdic)
-        return(code,answer)
+            return(code,answer)
+        else:
+            return ("", "")
 
 
 if __name__ == "__main__":
